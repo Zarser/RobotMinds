@@ -1,0 +1,231 @@
+/* ================ BASE STYLES ================ */
+:root {
+  --primary-bg: #191919;
+  --secondary-bg: #ffffff;
+  --text-dark: #191919;
+  --text-light: #ffffff;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --border-radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ================ SCROLLBAR HANDLING ================ */
+/* Modern approach with better browser coverage */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
+
+/* ================ LAYOUT STRUCTURE ================ */
+.app-container {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.snap-scroll {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  perspective: 1000px;
+  background-color: var(--primary-bg);
+}
+
+.section {
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+  padding: 80px 0 0;
+  transition: background-color 0.8s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================ ABOUT SECTION ENHANCEMENTS ================ */
+.section#about {
+  padding-top: 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 2rem;
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  flex-grow: 1;
+}
+
+.about-box {
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-bg);
+  color: var(--text-dark);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.about-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.about-box img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.text-box {
+  background-color: var(--secondary-bg);
+  color: var(--text-dark);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.img-container {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ================ MOBILE RESPONSIVENESS ================ */
+@media (max-width: 768px) {
+  .section {
+    padding-top: 60px;
+    min-height: auto;
+    height: auto;
+  }
+
+  #hero.section {
+    min-height: 90vh;
+    padding-bottom: 3rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    width: 95%;
+    padding: 1rem 0;
+    gap: 1.5rem;
+  }
+
+  .about-box {
+    background: transparent;
+    box-shadow: none;
+    color: var(--text-light);
+  }
+
+  .about-box img {
+    height: 200px;
+  }
+
+  .about-text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 1rem;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
+    color: var(--text-light);
+  }
+
+  .about-content:not(.about-text-overlay) {
+    display: none;
+  }
+
+  .text-box,
+  .img-container {
+    width: 100% !important;
+  }
+}
+
+/* ================ ACCESSIBILITY IMPROVEMENTS ================ */
+@media (prefers-reduced-motion) {
+  .snap-scroll {
+    scroll-behavior: auto;
+  }
+  
+  .hero-image {
+    transition: none;
+  }
+}
+
+/* ================ PRINT STYLES ================ */
+@media print {
+  .snap-scroll {
+    overflow: visible;
+    height: auto;
+  }
+  
+  .snap-section {
+    min-height: 0;
+    page-break-after: always;
+  }
+}
+
+.logo-marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  background-color: #ffffff; /* Mörk bakgrund, justera vid behov */
+  padding: 0.5rem 0;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.logo-marquee {
+  display: flex;
+  width: calc(240px * 10); /* Justera beroende på antal loggor och storlek */
+  animation: marquee 20s linear infinite;
+}
+
+.logo-marquee:hover {
+  animation-play-state: paused;
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+  margin: 0 20px;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+  user-select: none;
+}
+
+.logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
